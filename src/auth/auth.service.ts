@@ -87,17 +87,26 @@ export class AuthService {
 
     }
     const {password:_, ...userResponse} = user.toJSON();
+    
     //En esta parte de la misma manera se puede agregar un token o propiedades. Se puede customizar la manera de enviar la respuesta
     return {
       user:userResponse,
-      token: this.getJwtToken({id:user.id})
+      token: this.getJwtToken({id:user._id})
     }
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  findAll(): Promise<User[]> {
+    return this.userModel.find();
   }
 
+  async findUserById(id:string){
+
+    const user = await this.userModel.findById(id);
+    const {password, ...rest} = user.toJSON();
+    return rest;
+
+
+  }
   findOne(id: number) {
     return `This action returns a #${id} auth`;
   }
@@ -115,4 +124,6 @@ export class AuthService {
     const token = this.jwtService.sign(payload);
     return token;
   }
+
+
 }
