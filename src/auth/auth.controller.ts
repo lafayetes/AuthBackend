@@ -30,8 +30,8 @@ export class AuthController {
   @Get()
   findAll( @Request() req:Request) {
     const user = req['user']
-    return user;
     return this.authService.findAll();
+    return user;
   }
 
 @UseGuards(AuthGuard)
